@@ -52,20 +52,15 @@ public class Main {
                     bank.withdraw(accNumber,amt);
                     break;
 
-                case 4:
-                    System.out.println("CHECKING BALANCE");
-                    System.out.println("Enter account number : ");
-                    accNumber=sc.nextInt();
-                    bank.checkBalance(accNumber);
-                    break;
 
-                case 5:
+
+                case 4:
                     System.out.println("Enter account number : ");
                     accNumber= sc.nextInt();
                     bank.displayDetails(accNumber);
                     break;
 
-                case 6:
+                case 5:
                     System.out.println("Exit");
                     break;
 
