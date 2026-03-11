@@ -1,3 +1,9 @@
+import dao.LogDAO;
+import file.BulkAccountCreation;
+import model.Account;
+import model.Bank;
+import model.ErrorLogger;
+
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -11,7 +17,7 @@ public class Main {
 
         do {
             System.out.println("---------MENU----------");
-            System.out.println("Select option\n 1) CREATE ACCOUNT\n 2) DEPOSIT\n 3) WITHDRAW\n 4) CHECK BALANCE\n 5) DISPLAY DETAILS\n 6) EXIT  ");
+            System.out.println("Select option\n 1) CREATE ACCOUNT\n 2) DEPOSIT\n 3) WITHDRAW\n 4) DISPLAY DETAILS\n 5) Show error log\n 6) Transaction log\n 7) Bulk account creation\n  8)Exit  ");
 
             choice=sc.nextInt();
 
@@ -61,13 +67,30 @@ public class Main {
                     break;
 
                 case 5:
+                    ErrorLogger.readErrorLog();
+                    break;
+
+                case 6:
+                    LogDAO logDAO = new LogDAO();
+                    System.out.println("Enter account number : ");
+                    accNumber=sc.nextInt();
+                    logDAO.displayLogs(accNumber);
+                    break;
+
+
+                case 7:
+                    BulkAccountCreation importer = new BulkAccountCreation();
+                    importer.importAccounts();
+                    break;
+
+                case 8:
                     System.out.println("Exit");
                     break;
 
                 default:
                     System.out.println("Invalid input!");
             }
-        }while(choice!=6);
+        }while(choice!=8);
 
     }
 }

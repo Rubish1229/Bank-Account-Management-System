@@ -1,12 +1,16 @@
+package dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import model.Account;
+import database.ConnectionDB;
+import model.ErrorLogger;
+
+import java.sql.*;
 
 public class AccountDAO {
     public void createAccount(Account account) throws SQLException {
+
 try {
+
     Connection conn = ConnectionDB.getConnection();
 
     String insertSql = "INSERT INTO account (account_holder_name,account_number,balance,account_type)VALUES(?,?,?,?)";
@@ -19,9 +23,15 @@ try {
     insertStmt.setString(4,account.getAccountType());
 
     insertStmt.executeUpdate();
-    System.out.println("Data saved in database");
+
+    System.out.println("Account created successfully!");
 }catch(Exception e){
-    e.printStackTrace();
+    System.out.println("Account with same Account number exists in db");
+    ErrorLogger.logError(
+            "Duplicate Account",
+            "Account number: " + account.getAccountNumber()
+    );
+    return;
 }
 
     }
@@ -30,7 +40,7 @@ try {
     public double getBalance(int accountNumber){
         double balance=0;
         try{
-            Connection conn=ConnectionDB.getConnection();
+            Connection conn= ConnectionDB.getConnection();
 
             String sql="SELECT balance FROM account WHERE account_number=?";
 
@@ -56,7 +66,7 @@ try {
 
     public void updateBalance(int accountNumber,double balance){
         try{
-            Connection conn=ConnectionDB.getConnection();
+            Connection conn= ConnectionDB.getConnection();
 
             String sql="UPDATE account SET balance=? WHERE account_number=?";
 
